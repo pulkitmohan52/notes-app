@@ -27,9 +27,8 @@ exports.fetchNoteService = async (filters, page, limit) => {
 
 exports.fetchTagsList = async () => {
   try {
-    const notes = await Note.find({}, { tags: 1, _id: 0 }).lean();
-    const individualTags = [...new Set(notes.map((item) => item.tags).flat())];
-    return individualTags;
+    const notes = await Note.distinct("tags");
+    return notes;
   } catch (error) {
     console.error("Error while fetching the tags list came up: ", error);
     throw new Error();
